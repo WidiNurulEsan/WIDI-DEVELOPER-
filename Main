@@ -1,0 +1,143 @@
+.Lewati ke konten
+Search or jump to…
+
+Tarik permintaan
+Masalah
+Pasar
+Jelajahi
+ 
+@WidiNurulEsan 
+ MasalahKode138Tarik permintaan7KomunitasPulsaKeamanan     
+wifiphisher /setup.py / 
+@sophron sophron Gunakan versi PyRIC lama untuk saat ini.
+7dc0bc2
+16 jam yang lalu
+@sophron@cclauss@ anakin1028@blackHatMonkey@fabaff@kkliebersbach@ d33tah
+113 baris (95 sloc)  4,66 KB
+ 
+Anda menggunakan navigasi kode untuk melompat ke definisi atau referensi.
+Pelajari lebih lanjut atau beri kami umpan balik
+# ! / usr / bin / env python3
+r "" "
+                     _ __ _ _ _ _
+                    (_) / _ (_) | | (_) | |
+  ((.)) __ ___ | | _ _ _ __ | | __ _ ___ | | __ ___ _ __
+    | \ \ / \ / / | _ | | '_ \ | '_ \ | / __ | '_ \ / _ \' __ |
+   / _ \ \ VV / | | | | | | _) | | | | \ __ \ | | | __ / |
+  / ___ \ \ _ / \ _ / | _ | _ | | _ | .__ / | _ | | _ | _ | ___ / _ | | _ | \ ___ | _ |
+/ \ | |
+                            | _ | Versi {}
+"" "
+
+
+
+impor os
+impor sys
+
+dari setuptools impor Command, find_packages, setup
+
+impor wifiphisher.common.constants sebagai konstanta
+
+coba :
+    raw_input   # Python 2
+kecuali  NameError :
+    raw_input  =  input   # Python 3
+
+
+class  CleanCommand ( Command ):
+    "" " Perintah bersih khusus untuk merapikan root proyek. " ""
+    user_options = []
+    def  initialize_options ( self ):
+        lulus
+    def  finalize_options ( self ):
+        lulus
+    def  run ( mandiri ):
+        os.system ( ' rm -vrf ./build ./dist ./*.pyc ./*.tgz ./*.egg-info ' )
+
+def  get_dnsmasq ():
+    "" "
+    Cobalah untuk menginstal dnsmasq pada mesin host jika tidak ada.
+    : return: Tidak ada
+    : rtype: Tidak ada
+    "" "
+
+    jika  tidak os.path.isfile ( " / usr / sbin / dnsmasq " ):
+        instal =  raw_input (( " [ "  + constants.T +  " * "  + constants.W +  " ] dnsmasq tidak ditemukan "  +
+                             " di / usr / sbin / dnsmasq, "  +  " instal sekarang? [y / n] " ))
+
+        jika menginstal ==  " y " :
+            if os.path.isfile ( " / usr / bin / pacman " ):
+                os.system ( " pacman -S dnsmasq " )
+            elif os.path.isfile ( " / usr / bin / yum " ):
+                os.system ( " yum install dnsmasq " )
+            elif os.path.isfile ( " / usr / bin / dnf " ):
+                os.system ( " dnf -y install dnsmasq " )
+            lain :
+                os.system ( " apt-get -y install dnsmasq " )
+        lain :
+            sys.exit (( " [ "  + constants.R +  " - "  + constants.W +  " ] dnsmasq "  +
+                      " tidak ditemukan di / usr / sbin / dnsmasq " ))
+
+    jika  tidak os.path.isfile ( " / usr / sbin / dnsmasq " ):
+        dnsmasq_message = ( " \ n [ "  + constants.R +  " - "  + constants.W +
+                           " ] Tidak dapat menginstal paket \ ' dnsmasq \' ! \ N "  +  " [ "  + constants.T +
+                           " * "  + constants.W +  " ] Proses ini membutuhkan internet persisten "  +
+                           " koneksi! \ n Silakan ikuti tautan di bawah ini untuk mengonfigurasi "  + Anda
+                           " sources.list \ n "  + constants.B +  " http://docs.kali.org/general-use/ "  +
+                           " kali-linux-sources-list-repositori \ n "  + konstanta.W +  " [ "  +
+                           constants.G +  " + "  + constants.W +  " ] Jalankan pembaruan apt-get untuk perubahan "  +
+                           " untuk mulai berlaku. \ n "  +  " [ "  + konstanta. G +  " + "  + konstanta. +  " ] "  +
+                           " Jalankan kembali skrip untuk menginstal dnsmasq. \ N [ "  + constants.R +  " ! "  +
+                           konstanta.W +  " ] Penutupan " )
+
+        sys.exit (dnsmasq_message)
+
+# pengaturan pengaturan
+NAME  =  " wifiphisher "
+AUTHOR  =  " sophron "
+AUTHOR_EMAIL  =  " sophron@latthi.com "
+URL  =  " https://github.com/wifiphisher/wifiphisher "
+DESCRIPTION  =  " Serangan phishing otomatis terhadap jaringan Wi-Fi "
+LICENSE  =  " GPL "
+KEYWORDS  = [ " wifiphisher " , " evil " , " twin " , " phishing " ]
+PAKET  = find_packages ( kecualikan = [ " dokumen " , " tes " ])
+INCLUDE_PACKAGE_DATA  =  Benar
+VERSION  =  " 1.4 "
+CLASSIFIERS  = [ " Status Pengembangan :: 5 - Produksi / Stabil " ,
+               " Lisensi :: OSI Disetujui :: Lisensi Publik Umum GNU v3 (LGPLv3) " ,
+               " Bahasa Alam :: Bahasa Inggris " , " Sistem Operasi :: Unix " ,
+               " Bahasa Pemrograman :: Python :: 2 " , " Bahasa Pemrograman :: Python :: 2.7 " ,
+               " Bahasa Pemrograman :: Python :: 2 :: Hanya " , " Topik :: Keamanan " ,
+               " Topik :: Sistem :: Jaringan " , " Pemirsa yang Dimaksud :: Pengguna Akhir / Desktop " ,
+               " Pemirsa yang Dimaksud :: Administrator Sistem " ,
+               " Pemirsa yang Dimaksud :: Teknologi Informasi " ]
+ENTRY_POINTS  = { " console_scripts " : [ " wifiphisher = wifiphisher.pywifiphisher: run " ]}
+# WORKAROUND: Unduh tornado 4.5.3 bukan yang terbaru sehingga travis tidak akan mengeluh
+INSTALL_REQUIRES  = [ " pbkdf2 " , " scapy " , " tornado == 4.5.3 " , " roguehostapd " , " pyric " ]
+DEPENDENCY_LINKS  = \
+[ " http://github.com/wifiphisher/roguehostapd/tarball/master#egg=roguehostapd-1.9.0 " , \
+" http://github.com/sophron/pyric/tarball/master#egg=pyric-0.5.0 " ]
+CMDCLASS  = { " clean " : CleanCommand,}
+
+# jalankan pengaturan
+pengaturan ( nama = NAME , penulis = AUTHOR , author_email = AUTHOR_EMAIL , deskripsi = DESCRIPTION ,
+      lisensi = LISENSI , kata kunci = KATA KUNCI , paket = PAKET ,
+      include_package_data = INCLUDE_PACKAGE_DATA , versi = VERSION , entry_points = ENTRY_POINTS ,
+      install_requires = INSTALL_REQUIRES , dependency_links = DEPENDENCY_LINKS ,
+      classifiers = CLASSIFIERS , url = URL , cmdclass = CMDCLASS )
+
+get_dnsmasq ()
+
+print ( __doc__ .format ( VERSION ))   # cetak docstring yang terletak di bagian atas file ini
+© 2019 GitHub, Inc.
+Ketentuan
+Pribadi
+Keamanan
+Status
+Membantu
+Hubungi GitHub
+Harga
+API
+Latihan
+Blog
+Tentang
